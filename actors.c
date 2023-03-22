@@ -26,19 +26,19 @@ void* david_func(void* args) {
         sem_wait(student_outside);
 
     	// panic, student has arrived
-        printf("David: panic!!\n");
+        printf("David is panicking!!\n");
 
         sem_post(david_available);
         sem_wait(question_asked);
 
     	// yell
-        printf("David: yells at student!!\n");
+        printf("David: \"OMG. Get back to work now!!\"\n");
 
         sem_post(student_got_resp);
         sem_wait(student_leaving);
 
     	// good bye
-        printf("David: waves goodbye!!\n");
+        printf("David: waves goodbye!\n");
 	   i++;
     }
     return NULL;
