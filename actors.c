@@ -53,7 +53,7 @@ void* student_func(void* args) {
     sem_wait(adam_available);
 
     // ask question
-    printf("Student %ld: \"Hey Adam, do you like tangerines or oranges?\"\n", pthread_self());
+    printf("Student %ld: \"Hi Adam, do you like tangerines or oranges?\"\n", pthread_self());
 
     sem_post(question_asked);
     sem_wait(student_got_resp);
