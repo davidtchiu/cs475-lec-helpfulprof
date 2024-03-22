@@ -37,20 +37,6 @@ int main(int argc, char *argv[]) {
 	}
 	pthread_join(*adam, NULL);
 
-	//close semaphores
-	sem_close(student_outside);
-	sem_close(adam_available);
-	sem_close(question_asked);
-	sem_close(student_got_resp);
-	sem_close(student_leaving);
-
-	//delete semaphores
-	sem_unlink("/student_outside");
-	sem_unlink("/adam_available");
-	sem_unlink("/question_asked");
-	sem_unlink("/student_got_resp");
-	sem_unlink("/student_leaving");
-
 	free(adam);
 	adam = NULL;
 

@@ -18,11 +18,29 @@ void init_semaphores() {
     student_leaving = sem_open("/student_leaving", O_CREAT, 0600, 0);
 }
 
+void destroy_semaphores() {
+    //close semaphores
+	sem_close(student_outside);
+	sem_close(adam_available);
+	sem_close(question_asked);
+	sem_close(student_got_resp);
+	sem_close(student_leaving);
+
+	//delete semaphores
+	sem_unlink("/student_outside");
+	sem_unlink("/adam_available");
+	sem_unlink("/question_asked");
+	sem_unlink("/student_got_resp");
+	sem_unlink("/student_leaving");
+}
+
+
+
 void* adam_func(void* args) {
     int i = 0;
     while (i < NUM_STUDENTS) {
 	   // look busy
-        printf("Adam looks busy before students arrive.\n");
+        printf("Adam pretends to look busy.\n");
 
         sem_wait(student_outside);
 
@@ -46,8 +64,8 @@ void* adam_func(void* args) {
 }
 
 void* student_func(void* args) {
-    sem_post(student_outside);
     printf("Student %ld arrives at office!\n", pthread_self());
+    sem_post(student_outside);
 
     // ask question
     sem_wait(adam_available);

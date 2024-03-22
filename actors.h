@@ -10,6 +10,7 @@ extern sem_t* student_leaving;
 
 // function declarations
 void init_semaphores();
+void destroy_semaphores();
 void* adam_func(void* args);
 void* student_func(void* args);
 
