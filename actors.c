@@ -6,11 +6,7 @@
 #include "actors.h"
 
 void init_semaphores() {
-    sem_unlink("/student_outside");
-    sem_unlink("/adam_available");
-    sem_unlink("/question_asked");
-    sem_unlink("/student_got_resp");
-    sem_unlink("/student_leaving");
+    destroy_semaphores();
     student_outside = sem_open("/student_outside", O_CREAT, 0600, 0);
     adam_available = sem_open("/adam_available", O_CREAT, 0600, 0);
     question_asked = sem_open("/question_asked", O_CREAT, 0600, 0);
@@ -48,10 +44,11 @@ void* adam_func(void* args) {
         printf("Adam is panicking!! \"OMG OMG OMG OMG OMG\"\n");
 
         sem_post(adam_available);
+
         sem_wait(question_asked);
 
     	// yell
-        printf("Adam: \"OMG. Get back to work now!!\"\n");
+        printf("Adam: \"You've got to be kidding. Get back to work .. NOW!!\"\n");
 
         sem_post(student_got_resp);
         sem_wait(student_leaving);
