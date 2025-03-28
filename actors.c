@@ -37,25 +37,21 @@ void* prof_func(void* args) {
     while (i < NUM_STUDENTS) {
 	   // look busy
         printf("Prof pretends to look busy.\n");
-
         sem_wait(student_outside);
 
-    	// panic, student has arrived
+        // panic, student has arrived
         printf("Prof is panicking!! \"OMG OMG OMG OMG OMG\"\n");
-
         sem_post(prof_available);
-
         sem_wait(question_asked);
 
     	// yell
         printf("Prof: \"You've got to be kidding. Get back to work .. NOW!!\"\n");
-
         sem_post(student_got_resp);
         sem_wait(student_leaving);
 
     	// good bye
         printf("Prof waves goodbye!\n");
-	   i++;
+	    i++;
     }
     return NULL;
 }
@@ -69,13 +65,11 @@ void* student_func(void* args) {
 
     // ask question
     printf("Student %ld: \"Hey Prof, do you like tangerines or oranges?\"\n", pthread_self());
-
     sem_post(question_asked);
     sem_wait(student_got_resp);
 
     // acknowledge response
     printf("Student %ld: \"Thanks for your help!\"\n", pthread_self());
-
     sem_post(student_leaving);
 
     // bye
