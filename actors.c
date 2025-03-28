@@ -8,7 +8,7 @@
 void init_semaphores() {
     destroy_semaphores();
     student_outside = sem_open("/student_outside", O_CREAT, 0600, 0);
-    adam_available = sem_open("/adam_available", O_CREAT, 0600, 0);
+    prof_available = sem_open("/prof_available", O_CREAT, 0600, 0);
     question_asked = sem_open("/question_asked", O_CREAT, 0600, 0);
     student_got_resp = sem_open("/student_got_resp", O_CREAT, 0600, 0);
     student_leaving = sem_open("/student_leaving", O_CREAT, 0600, 0);
@@ -17,14 +17,14 @@ void init_semaphores() {
 void destroy_semaphores() {
     //close semaphores
 	sem_close(student_outside);
-	sem_close(adam_available);
+	sem_close(prof_available);
 	sem_close(question_asked);
 	sem_close(student_got_resp);
 	sem_close(student_leaving);
 
 	//delete semaphores
 	sem_unlink("/student_outside");
-	sem_unlink("/adam_available");
+	sem_unlink("/prof_available");
 	sem_unlink("/question_asked");
 	sem_unlink("/student_got_resp");
 	sem_unlink("/student_leaving");
@@ -32,29 +32,29 @@ void destroy_semaphores() {
 
 
 
-void* adam_func(void* args) {
+void* prof_func(void* args) {
     int i = 0;
     while (i < NUM_STUDENTS) {
 	   // look busy
-        printf("Adam pretends to look busy.\n");
+        printf("Prof pretends to look busy.\n");
 
         sem_wait(student_outside);
 
     	// panic, student has arrived
-        printf("Adam is panicking!! \"OMG OMG OMG OMG OMG\"\n");
+        printf("Prof is panicking!! \"OMG OMG OMG OMG OMG\"\n");
 
-        sem_post(adam_available);
+        sem_post(prof_available);
 
         sem_wait(question_asked);
 
     	// yell
-        printf("Adam: \"You've got to be kidding. Get back to work .. NOW!!\"\n");
+        printf("Prof: \"You've got to be kidding. Get back to work .. NOW!!\"\n");
 
         sem_post(student_got_resp);
         sem_wait(student_leaving);
 
     	// good bye
-        printf("Adam waves goodbye!\n");
+        printf("Prof waves goodbye!\n");
 	   i++;
     }
     return NULL;
@@ -65,10 +65,10 @@ void* student_func(void* args) {
     sem_post(student_outside);
 
     // ask question
-    sem_wait(adam_available);
+    sem_wait(prof_available);
 
     // ask question
-    printf("Student %ld: \"Hi Adam, do you like tangerines or oranges?\"\n", pthread_self());
+    printf("Student %ld: \"Hey Prof, do you like tangerines or oranges?\"\n", pthread_self());
 
     sem_post(question_asked);
     sem_wait(student_got_resp);

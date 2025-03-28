@@ -7,7 +7,7 @@
 
 /* globals */
 sem_t* student_outside;
-sem_t* adam_available;
+sem_t* prof_available;
 sem_t* question_asked;
 sem_t* student_got_resp;
 sem_t* student_leaving;
@@ -24,10 +24,10 @@ int main(int argc, char *argv[]) {
 	init_semaphores();
 
 	//create professor and student threads
-	pthread_t *adam = (pthread_t*) malloc(sizeof(pthread_t));
+	pthread_t *prof = (pthread_t*) malloc(sizeof(pthread_t));
 	pthread_t *students = (pthread_t*) malloc(NUM_STUDENTS * sizeof(pthread_t));
 
-	pthread_create(adam, NULL, adam_func, NULL);
+	pthread_create(prof, NULL, prof_func, NULL);
 	for (int i = 0; i < NUM_STUDENTS; i++) {
 		pthread_create(&students[i], NULL, student_func, NULL);
 	}
@@ -35,10 +35,10 @@ int main(int argc, char *argv[]) {
 	for (int i = 0; i < NUM_STUDENTS; i++) {
 		pthread_join(students[i], NULL);
 	}
-	pthread_join(*adam, NULL);
+	pthread_join(*prof, NULL);
 
-	free(adam);
-	adam = NULL;
+	free(prof);
+	prof = NULL;
 
 	free(students);
 	students = NULL;
