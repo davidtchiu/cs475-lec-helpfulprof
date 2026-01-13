@@ -24,8 +24,8 @@ int main(int argc, char *argv[]) {
 	init_semaphores();
 
 	//create professor and student threads
-	pthread_t *prof = (pthread_t*) malloc(sizeof(pthread_t));
-	pthread_t *students = (pthread_t*) malloc(NUM_STUDENTS * sizeof(pthread_t));
+	pthread_t *prof = malloc(sizeof(pthread_t));
+	pthread_t *students = malloc(NUM_STUDENTS * sizeof(pthread_t));
 
 	pthread_create(prof, NULL, prof_func, NULL);
 	for (int i = 0; i < NUM_STUDENTS; i++) {
